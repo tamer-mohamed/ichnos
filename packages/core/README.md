@@ -1,4 +1,4 @@
-# Ichnos
+# `@ichnos/core`
 
 JavaScript library for Tracking client-side events for Superior via Google Tag Manager (GTM).
 
