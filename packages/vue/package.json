@@ -1,0 +1,56 @@
+{
+  "name": "@ichnos/vue",
+  "version": "0.0.10-alpha.0",
+  "description": "Vue plugin for ichnos",
+  "keywords": [
+    "vue",
+    "tracking",
+    "gtm",
+    "plugin",
+    "vue",
+    "plugin"
+  ],
+  "author": "Tamer Mohamed <tamer.a.elsayed@gmail.com>",
+  "homepage": "https://github.com/tamer-mohamed/ichnos#readme",
+  "license": "ISC",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es5.js",
+  "typings": "dist/types/index.d.ts",
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamer-mohamed/ichnos.git"
+  },
+  "scripts": {
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file lib",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "deploy-docs": "ts-node tools/gh-pages-publish",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release",
+    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
+    "precommit": "lint-staged",
+    "prepare": "npm run build",
+    "travis-deploy-once": "travis-deploy-once"
+  },
+  "bugs": {
+    "url": "https://github.com/tamer-mohamed/ichnos/issues"
+  },
+  "dependencies": {
+    "@ichnos/core": "^0.0.10-alpha.0"
+  },
+  "gitHead": "26ba2de8083f31ad8743b0a5b3202b88645e1939"
+}
