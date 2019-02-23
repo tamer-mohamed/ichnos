@@ -77,7 +77,7 @@ interface IMixinFactory {
   event: {
     elements: string[]
     eventListeners: string[]
-    mapTagNameToGTMEventName: any
+    mapTagNameToGTMEventName: string | { [tagName: string]: string } 
   },
   beforeSend(event: any): any
 }
