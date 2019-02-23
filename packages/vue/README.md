@@ -10,11 +10,11 @@ npm install @ichnos/vue
 
 
 ### Setup Vue plugin
-```javascript
-import ichnosVue from '@ichnos/vue'
+```ts
+import {plugin} from '@ichnos/vue'
 import Vue from 'vue'
 
-Vue.use(ichnosVue, {
+Vue.use(plugin, {
   id: 'GTM-XXXX',
   active: true,
 })
@@ -34,6 +34,10 @@ you may need to tracking html elements using `data-track*` attributes.
 find example below to track html elements and format gtm event before sending the event using `beforeSend` hook
 
 ```ts
+import Vue from 'vue'
+import {mixinFactory} from '@ichnos/vue'
+
+
 new Vue({
     mixins: [
       mixinFactory({
@@ -64,8 +68,9 @@ new Vue({
 });
 ```
 
+### Fire events Imperatively 
 
-in any vue component you should have access to `$ichnos` instance to fire any event using `send` method.
+in any vue component you will access to `$ichnos` instance to fire any event using `send` method.
 
 Typescript
 
