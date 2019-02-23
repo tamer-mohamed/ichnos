@@ -31,14 +31,11 @@ export default class Tracking {
       throw new Error('GTM ID is not provided')
     }
 
-    const queryParams = options.query || {}
-    queryParams.id = options.id
-
-    if (!options.layer) {
-      options.layer = 'dataLayer'
+    const queryParams = {
+      ...(options.query || {}),
+      id: options.id,
+      l: this.layer
     }
-
-    queryParams.l = options.layer
 
     const scriptSrc =
       (options.scriptURL || '//www.googletagmanager.com/gtm.js') +
@@ -46,13 +43,10 @@ export default class Tracking {
       this.getQueryString(queryParams)
 
     this.addScript(scriptSrc)
-    this.options = options
-
-    const { layer } = options
-    ;(window as IWindow)[layer] = (window as IWindow)[layer] || []
+    ;(window as IWindow)[this.layer] = (window as IWindow)[this.layer] || []
 
     if (this.options.active) {
-      ;(window as IWindow)[layer].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+      ;(window as IWindow)[this.layer].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
     }
   }
 
@@ -72,6 +66,10 @@ export default class Tracking {
       .join('&')
   }
 
+  get layer() {
+    return this.options.layer || 'dataLayer'
+  }
+
   send<Event>(event: Event) {
     if (inBrowser && this.options.active) {
       const ichnosEvent = Object.assign({}, this.params, event)
@@ -80,7 +78,7 @@ export default class Tracking {
         console.log('Ichnos:Event', ichnosEvent)
       }
 
-      ;(window as IWindow)[this.options.layer].push(ichnosEvent)
+      ;(window as IWindow)[this.layer].push(ichnosEvent)
     }
   }
 }
