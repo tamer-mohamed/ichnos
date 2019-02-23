@@ -21,13 +21,15 @@ Vue.use(plugin, {
 ```
 
 #### Plugin options
-`active` 
-use `true` if you want to enable sending the value to GTM. useful for local development
+```ts
+interface IOptions {
+  id: string
+  active?: boolean // default: true
+  layer?: string // default: dataLayer
+  debug?: boolean // default: false
+}
+```
 
-`debug`
-
-`id` 
-GTM ID
 
 ### Setup vue mixin 
 you may need to tracking html elements using `data-track*` attributes.

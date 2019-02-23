@@ -1,8 +1,8 @@
 import debug from 'debug'
 export interface IOptions {
   id: string
-  active: boolean
-  layer: string
+  active?: boolean
+  layer?: string
   pageTracking?: boolean
   query?: any
   debug?: boolean
