@@ -31,7 +31,7 @@ interface IOptions {
 ```
 
 
-### Setup vue mixin 
+### Setup Vue mixin 
 you may need to tracking html elements using `data-track*` attributes.
 find example below to track html elements and format gtm event before sending the event using `beforeSend` hook
 
