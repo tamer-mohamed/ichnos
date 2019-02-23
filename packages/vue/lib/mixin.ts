@@ -1,4 +1,5 @@
 import { all, flip, has, is } from 'ramda'
+import Ichnos from '@ichnos/core'
 
 const trackingDataset = ['trackcategory', 'tracklabel', 'trackvalue']
 const hasRequiredArgs = (dataSet: any) => all(flip(has)(dataSet), ['trackcategory'])
@@ -18,7 +19,7 @@ export function mixinFactory({
   beforeSend(event: any): any
 }): any {
   return {
-    mounted() {
+    addEventsToDOM(ichnos: Ichnos) {
       events.map(trackingEvent => {
         trackingEvent.eventListeners.map(event => {
           document.body.addEventListener(event, (e: any) => {
@@ -49,12 +50,26 @@ export function mixinFactory({
                   eventToSend = beforeSend(eventToSend)
                 }
 
-                this.$ichnos.send(eventToSend)
+                ichnos.send(eventToSend)
               }
             }
           })
         })
       })
+    },
+    mounted() {
+      let ichnosInstance = this.$ichnos
+
+      if (beforeSend) {
+        ichnosInstance = new Ichnos({
+          options: ichnosInstance.options,
+          hooks: {
+            beforeSend
+          }
+        })
+      }
+
+      this.addEventsToDOM(ichnosInstance)
     }
   }
 }

@@ -12,7 +12,36 @@ npm install @ichnos/core
 import Ichnos from '@ichnos/core'
 
 // init library
-const tracking = new Ichnos({ id: 'GTM-XXX' })
+const tracking = new Ichnos({
+    options: { id: 'GTM-XXX' },
+})
+//...
+//...
+//...
+// send events
+tracking.send({ event: 'PageView' })
+tracking.send({ event: 'VariantView', variantId: 'variant-a' })
+```
+
+### Hooks
+Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
+
+you can use `beforeSend` hook to patch all the events before it is sent to GTM.
+below is example to attach `event` property to all the events schema.
+
+```ts
+import Ichnos from '@ichnos/core'
+
+// init library
+const tracking = new Ichnos({
+    options: { id: 'GTM-XXX' },
+    hooks: {
+        beforeSend: (event) => ({
+            event: 'global_property',
+            ...event,
+        })
+    }
+})
 //...
 //...
 //...

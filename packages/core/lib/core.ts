@@ -9,6 +9,10 @@ export interface IOptions {
   scriptURL?: string
 }
 
+export interface IHooks {
+  beforeSend?: (event: any) => any
+}
+
 interface IWindow {
   [key: string]: any
 }
@@ -16,12 +20,20 @@ interface IWindow {
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
-  private params: any
   public options: IOptions
+  private _hooks: IHooks
 
-  constructor({ options, params = {} }: { options: IOptions; params?: any }) {
+  constructor({
+    options,
+    params = {},
+    hooks = {}
+  }: {
+    options: IOptions
+    params?: any
+    hooks?: IHooks
+  }) {
     this.options = options
-    this.params = params
+    this._hooks = hooks
 
     if (!inBrowser) {
       return
@@ -70,12 +82,24 @@ export default class Tracking {
     return this.options.layer || 'dataLayer'
   }
 
+  get hooks() {
+    return this._hooks
+  }
+
+  set hooks(value) {
+    this.hooks = value
+  }
+
   send<Event>(event: Event) {
     if (inBrowser && this.options.active) {
-      const ichnosEvent = Object.assign({}, this.params, event)
+      let ichnosEvent = event
 
       if (this.options.debug) {
         console.log('Ichnos:Event', ichnosEvent)
+      }
+
+      if (this.hooks.beforeSend) {
+        ichnosEvent = this.hooks.beforeSend(ichnosEvent)
       }
 
       ;(window as IWindow)[this.layer].push(ichnosEvent)

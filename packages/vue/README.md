@@ -15,8 +15,17 @@ import {plugin} from '@ichnos/vue'
 import Vue from 'vue'
 
 Vue.use(plugin, {
-  id: 'GTM-XXXX',
-  active: true,
+  options:{
+    id: 'GTM-XXXX',
+    active: true,
+  },
+  beforeSend: (event) => ({
+    event: 'gtmEvent',
+    gtmEventCategory: event.category, // -> interpolated from data-trackcategory
+    gtmEventLabel: event.label,
+    gtmEventValue: event.value,
+    gtmEventAction: event.action,
+  }),
 })
 ```
 
