@@ -1,9 +1,11 @@
+import debug from 'debug'
 export interface IOptions {
   id: string
-  active: boolean
-  layer: string
+  active?: boolean
+  layer?: string
   pageTracking?: boolean
   query?: any
+  debug?: boolean
   scriptURL?: string
 }
 
@@ -72,7 +74,13 @@ export default class Tracking {
 
   send<Event>(event: Event) {
     if (inBrowser && this.options.active) {
-      ;(window as IWindow)[this.options.layer].push(Object.assign({}, this.params, event))
+      const ichnosEvent = Object.assign({}, this.params, event)
+
+      if (this.options.debug) {
+        console.log('Ichnos:Event', ichnosEvent)
+      }
+
+      ;(window as IWindow)[this.options.layer].push(ichnosEvent)
     }
   }
 }

@@ -9,7 +9,7 @@ npm install @ichnos/core
 ```
 
 ```javascript
-import Ichnos from 'ichnos'
+import Ichnos from '@ichnos/core'
 
 // init library
 const tracking = new Ichnos({ id: 'GTM-XXX' })
@@ -19,22 +19,4 @@ const tracking = new Ichnos({ id: 'GTM-XXX' })
 // send events
 tracking.send({ event: 'PageView' })
 tracking.send({ event: 'VariantView', variantId: 'variant-a' })
-```
-
-#### Typescript support
-
-```typescript
-import Ichnos from 'ichnos'
-
-const tracking = new Ichnos({ id: 'GTM-XXX' })
-//...
-//...
-//...
-type IVariantEvent = {
-  event: string
-  variantId: string
-}
-// send events
-tracking.send<IEvent>({ event: 'PageView' })
-tracking.send<IVariantEvent>({ event: 'VariantView', variantId: 'variant-a' })
 ```

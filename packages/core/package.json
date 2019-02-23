@@ -1,6 +1,6 @@
 {
   "name": "@ichnos/core",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Core library for ichnos tracking",
   "keywords": [
     "track",
@@ -46,5 +46,8 @@
   },
   "bugs": {
     "url": "https://gitlab.com/tamer.mohamed/superior-tracking/issues"
+  },
+  "dependencies": {
+    "schm": "^0.4.1"
   }
 }
