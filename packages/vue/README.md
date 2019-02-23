@@ -20,11 +20,8 @@ Vue.use(plugin, {
     active: true,
   },
   beforeSend: (event) => ({
-    event: 'gtmEvent',
-    gtmEventCategory: event.category, // -> interpolated from data-trackcategory
-    gtmEventLabel: event.label,
-    gtmEventValue: event.value,
-    gtmEventAction: event.action,
+    event: 'my_app_events',
+    ...event,
   }),
 })
 ```
@@ -88,7 +85,7 @@ interface IMixinFactory {
     eventListeners: string[]
     mapTagNameToGTMEventName: string | { [tagName: string]: string } 
   },
-  beforeSend(event: any): any
+  beforeSend(event: any): any // if provided it will override `beforeSend` hook in the plugin options
 }
 ```
 
