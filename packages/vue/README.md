@@ -70,25 +70,24 @@ new Vue({
 });
 ```
 
+#### `mixinFactory` params
+
+```ts
+interface IMixinFactory {
+  event: {
+    elements: string[]
+    eventListeners: string[]
+    mapTagNameToGTMEventName: any
+  },
+  beforeSend(event: any): any
+}
+```
+
 ### Fire events Imperatively 
 
 in any vue component you will access to `$ichnos` instance to fire any event using `send` method.
 
-Typescript
-
-```typescript
-type IEvent = {
-  event: string
-}
-
-this.$ichnos.send<IEvent>({
-  event: 'event_name'
-})
-```
-
-Javascript
-
-```javascript
+```js
 this.$ichnos.send({
   event: 'event_name'
 })
