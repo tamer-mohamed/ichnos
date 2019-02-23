@@ -37,7 +37,7 @@ const tracking = new Ichnos({
     options: { id: 'GTM-XXX' },
     hooks: {
         beforeSend: (event) => ({
-            event: 'global_property',
+            payload: { extraProperty: 'more values'},
             ...event,
         })
     }
