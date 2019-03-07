@@ -51,5 +51,9 @@
   "dependencies": {
     "@ichnos/core": "^0.0.14"
   },
-  "gitHead": "a151610e042e520205b181682d13af12207679f0"
+  "gitHead": "a151610e042e520205b181682d13af12207679f0",
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "vue-template-compiler": "^2.6.8"
+  }
 }

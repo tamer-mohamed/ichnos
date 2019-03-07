@@ -21,6 +21,6 @@ declare module 'vue/types/options' {
   }
 
   interface FunctionalComponentOptions<Props = DefaultProps, PropDefs = PropsDefinition<Props>> {
-      $ichnos: Ichnos
+    $ichnos: Ichnos
   }
 }

@@ -1,4 +1,3 @@
-import debug from 'debug'
 export interface IOptions {
   id: string
   active?: boolean
@@ -20,27 +19,17 @@ interface IWindow {
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
+  public _isInitialized: boolean
   public options: IOptions
   private _hooks: IHooks
 
-  constructor({
-    options,
-    params = {},
-    hooks = {}
-  }: {
-    options: IOptions
-    params?: any
-    hooks?: IHooks
-  }) {
+  constructor({ options, hooks = {} }: { options: IOptions; params?: any; hooks?: IHooks }) {
+    this._isInitialized = false
     this.options = options
     this._hooks = hooks
 
     if (!inBrowser) {
       return
-    }
-
-    if (!options.id) {
-      throw new Error('GTM ID is not provided')
     }
 
     const queryParams = {
@@ -57,9 +46,8 @@ export default class Tracking {
     this.addScript(scriptSrc)
     ;(window as IWindow)[this.layer] = (window as IWindow)[this.layer] || []
 
-    if (this.options.active) {
-      ;(window as IWindow)[this.layer].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-    }
+    this.send({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    this.isInitialized = true
   }
 
   private addScript(scriptSrc: string) {
@@ -86,19 +74,24 @@ export default class Tracking {
     return this._hooks
   }
 
-  set hooks(value) {
-    this.hooks = value
+  get isInitialized() {
+    return this._isInitialized
   }
 
-  send<Event>(event: Event) {
-    if (inBrowser && this.options.active) {
+  set isInitialized(init: boolean) {
+    this._isInitialized = init
+  }
+
+  send(event: any) {
+    if (this.options.active) {
       let ichnosEvent = event
 
+      /* istanbul ignore next */
       if (this.options.debug) {
         console.log('Ichnos:Event', ichnosEvent)
       }
 
-      if (this.hooks.beforeSend) {
+      if (this.hooks.beforeSend && event.event !== 'gtm.js') {
         ichnosEvent = this.hooks.beforeSend(ichnosEvent)
       }
 
