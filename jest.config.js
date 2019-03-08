@@ -1,8 +1,17 @@
 module.exports = {
-  transform: {
-    '.(ts|tsx)': 'ts-jest'
+  clearMocks: true,
+  globals: {
+    'ts-jest': {
+      extends: './babel.config.js'
+    }
   },
-  testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
+  notify: true,
+  notifyMode: 'always',
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest'
+  },
+  roots: ['<rootDir>packages'],
+  testMatch: ['**/__tests__/*.+(ts|tsx|js)', '**/*.test.+(ts|tsx|js)'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
   coverageThreshold: {
@@ -12,6 +21,5 @@ module.exports = {
       lines: 95,
       statements: 95
     }
-  },
-  collectCoverageFrom: ['lib/*.{js,ts}']
+  }
 }

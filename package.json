@@ -19,8 +19,9 @@
     "node": ">=6.0.0"
   },
   "scripts": {
+    "postinstall": "npm run bootstrap",
     "build": "lerna run --parallel --stream build",
-    "test": "lerna run --parallel --stream test",
+    "test": "jest --coverage",
     "bootstrap": "lerna bootstrap",
     "prebuild": "rimraf dist",
     "publish": "lerna publish"
@@ -58,8 +59,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "dom-testing-library": "^3.16.8",
     "husky": "^1.0.1",
-    "jest": "^24.3.0",
-    "jest-config": "^23.6.0",
+    "jest": "23.6.0",
     "lerna": "^3.10.7",
     "lerna-get-packages": "^1.0.0",
     "lint-staged": "^8.0.0",

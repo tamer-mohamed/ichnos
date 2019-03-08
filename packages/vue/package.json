@@ -54,6 +54,7 @@
   "gitHead": "a151610e042e520205b181682d13af12207679f0",
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.29",
+    "vue": "^2.6.8",
     "vue-template-compiler": "^2.6.8"
   }
 }
