@@ -12,7 +12,8 @@ describe('@ichnos/core for SSR', () => {
         new Ichnos({
           options: {
             id: 'GTM-XXX'
-          }
+          },
+          events: [{ type: 'addToCart' }]
         })
     ).not.toThrowError()
   })

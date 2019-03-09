@@ -12,7 +12,8 @@ describe('@ichnos/core', () => {
       const ichnos = new Ichnos({
         options: {
           id: 'GTM-XXX'
-        }
+        },
+        events: [{ type: 'buttonClick' }]
       })
 
       const actual = getScriptSrc()
@@ -28,7 +29,8 @@ describe('@ichnos/core', () => {
           query: {
             env: 'staging'
           }
-        }
+        },
+        events: [{ type: 'buttonClick' }]
       })
 
       let actual = getScriptSrc()
@@ -43,7 +45,8 @@ describe('@ichnos/core', () => {
         options: {
           active: true,
           id: 'GTM-XXX'
-        }
+        },
+        events: [{ type: 'addToCart' }]
       })
 
       const actual = (window as any).dataLayer[0]
@@ -54,18 +57,23 @@ describe('@ichnos/core', () => {
   })
 
   describe('send events', () => {
-    test('send events to datalayer', () => {
+    test('send events payload to datalayer', () => {
       const ichnos = new Ichnos({
         options: {
           active: true,
           id: 'GTM-XXX'
-        }
+        },
+        events: [{ type: 'addToCart' }]
       })
 
-      ichnos.send({ event: 'gtm', category: 'event_category' })
+      ichnos.send(
+        ichnos.events.addToCart({
+          category: 'add_to_cart'
+        })
+      )
 
       const actual = (window as any).dataLayer[1]
-      const expected = { event: 'gtm', category: 'event_category' }
+      const expected = { category: 'add_to_cart' }
 
       expect(actual).toEqual(expected)
     })
@@ -75,10 +83,11 @@ describe('@ichnos/core', () => {
         options: {
           active: false,
           id: 'GTM-XXX'
-        }
+        },
+        events: [{ type: 'addToCart' }]
       })
 
-      ichnos.send({ event: 'gtm', category: 'event_category' })
+      ichnos.send(ichnos.events.addToCart({ event: 'gtm', category: 'event_category' }))
 
       const actual = (window as any).dataLayer[1]
 
@@ -93,8 +102,9 @@ describe('@ichnos/core', () => {
           active: true,
           id: 'GTM-XXX'
         },
-        hooks: {
-          beforeSend(event) {
+        events: [{ type: 'addToCart' }],
+        hook: {
+          beforeSend(type, event) {
             return {
               ...event,
               newProperty: 'extra value'
@@ -103,7 +113,7 @@ describe('@ichnos/core', () => {
         }
       })
 
-      ichnos.send({ event: 'gtm' })
+      ichnos.send({ type: 'linkClick', payload: { event: 'gtm' } })
 
       const actual = (window as any).dataLayer[1]
       const expected = { event: 'gtm', newProperty: 'extra value' }

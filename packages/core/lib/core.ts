@@ -8,25 +8,55 @@ export interface IOptions {
   scriptURL?: string
 }
 
-export interface IHooks {
-  beforeSend?: (event: any) => any
+export interface IchnosEvent {
+  type: string
+  payload: any
 }
 
+interface EventCreator {
+  (payload: any): IchnosEvent
+}
+export interface EventsCreator {
+  [key: string]: EventCreator
+}
+
+export interface Hook {
+  beforeSend?(type: string, payload: any, history: any[]): IchnosEvent
+}
+
+export interface RegisteredEvent {
+  type: string
+}
 interface IWindow {
   [key: string]: any
+}
+
+export interface Config {
+  options: IOptions
+  events: RegisteredEvent[]
+  hook?: Hook
+  params?: any
 }
 
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
-  public _isInitialized: boolean
   public options: IOptions
-  private _hooks: IHooks
+  private _isInitialized: boolean
+  private _events: EventsCreator
+  private _hook: Hook
 
-  constructor({ options, hooks = {} }: { options: IOptions; params?: any; hooks?: IHooks }) {
+  constructor({ options, events, hook }: Config) {
     this._isInitialized = false
+    this._hook = hook || {}
     this.options = options
-    this._hooks = hooks
+
+    this._events = {
+      gtmInit: this.createEvent('gtmInit')
+    }
+    events.forEach(e => {
+      this._events[e.type] = this.createEvent(e.type)
+    })
 
     if (!inBrowser) {
       return
@@ -41,16 +71,22 @@ export default class Tracking {
     const scriptSrc =
       (options.scriptURL || '//www.googletagmanager.com/gtm.js') +
       '?' +
-      this.getQueryString(queryParams)
+      this._getQueryString(queryParams)
 
-    this.addScript(scriptSrc)
+    this._addScript(scriptSrc)
     ;(window as IWindow)[this.layer] = (window as IWindow)[this.layer] || []
 
-    this.send({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    this.send(
+      this._events.gtmInit({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      })
+    )
+
     this.isInitialized = true
   }
 
-  private addScript(scriptSrc: string) {
+  private _addScript(scriptSrc: string) {
     const head = document.getElementsByTagName('head')[0]
 
     const script = document.createElement('script')
@@ -59,7 +95,7 @@ export default class Tracking {
     head.appendChild(script)
   }
 
-  private getQueryString(params: any) {
+  private _getQueryString(params: any) {
     return Object.keys(params)
       .filter(key => params[key] !== null && params[key] !== undefined)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -70,32 +106,57 @@ export default class Tracking {
     return this.options.layer || 'dataLayer'
   }
 
-  get hooks() {
-    return this._hooks
-  }
-
   get isInitialized() {
     return this._isInitialized
+  }
+
+  get events() {
+    return this._events
   }
 
   set isInitialized(init: boolean) {
     this._isInitialized = init
   }
 
-  send(event: any) {
+  private _pushToGTM(event: any) {
+    ;(window as IWindow)[this.layer].push(event)
+  }
+
+  getHistory() {
+    return (window as IWindow)[this.layer]
+  }
+
+  send = ({ type, payload }: IchnosEvent) => {
     if (this.options.active) {
-      let ichnosEvent = event
+      const history = (window as IWindow)[this.layer]
 
-      /* istanbul ignore next */
-      if (this.options.debug) {
-        console.log('Ichnos:Event', ichnosEvent)
+      this.debug('Event', payload)
+
+      if (typeof this._hook.beforeSend === 'function' && type !== 'gtmInit') {
+        const ret = this._hook.beforeSend(type, payload, history)
+
+        if (!ret) {
+          this.debug("Event not sent because beforeSend hook didn't return the event", payload)
+          return
+        } else {
+          this._pushToGTM(ret)
+        }
+      } else {
+        this._pushToGTM(payload)
       }
-
-      if (this.hooks.beforeSend && event.event !== 'gtm.js') {
-        ichnosEvent = this.hooks.beforeSend(ichnosEvent)
-      }
-
-      ;(window as IWindow)[this.layer].push(ichnosEvent)
     }
+  }
+
+  debug(message: string, payload: any, type: 'warn' | 'error' | 'log' = 'log') {
+    if (this.options.debug) {
+      console[type](`Ichnos:${message}`, payload)
+    }
+  }
+
+  createEvent(type: string): EventCreator {
+    return (payload: any) => ({
+      type,
+      payload
+    })
   }
 }
