@@ -21,7 +21,7 @@ export interface EventsCreator {
 }
 
 export interface Hook {
-  beforeSend?(type: string, payload: any, history: any[]): IchnosEvent
+  beforeSend?(type: string, payload: any, history: any[]): IchnosEvent | void
 }
 
 export interface RegisteredEvent {
@@ -128,7 +128,7 @@ export default class Tracking {
 
   send = ({ type, payload }: IchnosEvent) => {
     if (this.options.active) {
-      const history = (window as IWindow)[this.layer]
+      const history = this.getHistory()
 
       this.debug('Event', payload)
 
@@ -148,6 +148,7 @@ export default class Tracking {
   }
 
   debug(message: string, payload: any, type: 'warn' | 'error' | 'log' = 'log') {
+    /* istanbul ignore else */
     if (this.options.debug) {
       console[type](`Ichnos:${message}`, payload)
     }

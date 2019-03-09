@@ -9,7 +9,7 @@ describe('@ichnos/core', () => {
 
   describe('on initialize', () => {
     test('inject script tag with the provided GTM id', () => {
-      const ichnos = new Ichnos({
+      new Ichnos({
         options: {
           id: 'GTM-XXX'
         },
@@ -23,7 +23,7 @@ describe('@ichnos/core', () => {
     })
 
     test('pass options query to the query string', () => {
-      const ichnos = new Ichnos({
+      new Ichnos({
         options: {
           id: 'GTM-XXX',
           query: {
@@ -36,6 +36,24 @@ describe('@ichnos/core', () => {
       let actual = getScriptSrc()
 
       const expected = '//www.googletagmanager.com/gtm.js?env=staging&id=GTM-XXX&l=dataLayer'
+
+      expect(actual).toBe(expected)
+    })
+
+    test('set isInitialized to true', () => {
+      const ichnos = new Ichnos({
+        options: {
+          id: 'GTM-XXX',
+          query: {
+            env: 'staging'
+          }
+        },
+        events: [{ type: 'buttonClick' }]
+      })
+
+      let actual = ichnos.isInitialized
+
+      const expected = true
 
       expect(actual).toBe(expected)
     })
@@ -119,6 +137,27 @@ describe('@ichnos/core', () => {
       const expected = { event: 'gtm', newProperty: 'extra value' }
 
       expect(actual).toEqual(expected)
+    })
+
+    test('doesnot send the event if beforeSend doesnot return event', () => {
+      const ichnos = new Ichnos({
+        options: {
+          active: true,
+          id: 'GTM-XXX'
+        },
+        events: [{ type: 'addToCart' }],
+        hook: {
+          beforeSend(type, event) {
+            return undefined
+          }
+        }
+      })
+
+      ichnos.send({ type: 'linkClick', payload: { event: 'gtm' } })
+
+      const actual = (window as any).dataLayer[1]
+
+      expect(actual).toBeUndefined()
     })
   })
 })
