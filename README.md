@@ -1,4 +1,4 @@
-![Codecov](https://img.shields.io/codecov/c/github/tamer-mohamed/ichnos.svg?style=flat-square)
+![Codecov](https://img.shields.io/codecov/c/github/tamer-mohamed/ichnos.svg?style=flat-square) ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/tamer-mohamed/ichnos.svg?style=flat-square) ![CircleCI branch](https://img.shields.io/circleci/project/github/tamer-mohamed/ichnos/master.svg?style=flat-square) ![GitHub](https://img.shields.io/github/license/tamer-mohamed/ichnos.svg?style=flat-square) ![David](https://img.shields.io/david/tamer-mohamed/ichnos.svg?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/@ichnos/core.svg?style=flat-square) 
 
 # Ichnos
 Library for Tracking client-side events via Google Tag Manager (GTM).
@@ -8,6 +8,7 @@ Library for Tracking client-side events via Google Tag Manager (GTM).
  - Flexible-scalable solution for gtm tracking
  - Can be pluged to any view framework - see [integrations](#integrations)
  - Redux-like: Easy to use and can hook into events 
+ - Super small: less than 2kb (minified)
 
 ## Install
 
@@ -72,9 +73,10 @@ ichnos.send(
 )
 ```
 
-### Hooks
+### `config.hook`
 
-Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
+Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. below list of hooks can be applied:
+
 #### `beforeSend`
 
 `beforeSend(type:string, payload: any, history: gtmEvents[])`
@@ -87,8 +89,7 @@ below is example to attach `event` property to all the events schema.
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({
-    options: { id: 'GTM-XXX' },
-    events: [ { type: 'addToCart' }]
+    // ...
     hook: {
         beforeSend: (type, payload, history) => {
             let event = payload;

@@ -1,6 +1,5 @@
 # `@ichnos/core`
 
-
 ## Install
 
 ```bash
@@ -64,9 +63,10 @@ ichnos.send(
 )
 ```
 
-### Hooks
+### `config.hook`
 
-Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
+Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. below list of hooks can be applied:
+
 #### `beforeSend`
 
 `beforeSend(type:string, payload: any, history: gtmEvents[])`
@@ -79,8 +79,7 @@ below is example to attach `event` property to all the events schema.
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({
-    options: { id: 'GTM-XXX' },
-    events: [ { type: 'addToCart' }]
+    // ...
     hook: {
         beforeSend: (type, payload, history) => {
             let event = payload;
