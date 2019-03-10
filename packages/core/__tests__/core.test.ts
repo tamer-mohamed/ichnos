@@ -2,6 +2,11 @@
 
 import Ichnos from '../lib/core'
 
+interface Payload {
+  name: 'x'
+  newProperty: 'extra value'
+}
+
 describe('@ichnos/core', () => {
   afterEach(() => {
     ;(window as any).dataLayer = undefined
@@ -122,11 +127,10 @@ describe('@ichnos/core', () => {
         },
         events: [{ type: 'addToCart' }],
         hook: {
-          beforeSend(type, event) {
-            return {
-              ...event,
+          beforeSend<Payload>(type: string, event: Payload): Payload {
+            return Object.assign({}, event, {
               newProperty: 'extra value'
-            }
+            })
           }
         }
       })
@@ -147,13 +151,17 @@ describe('@ichnos/core', () => {
         },
         events: [{ type: 'addToCart' }],
         hook: {
-          beforeSend(type, event) {
-            return undefined
+          beforeSend<Payload>(type: string, payload: Payload): Payload | false {
+            if (type === 'addToCart') {
+              return false
+            }
+
+            return payload
           }
         }
       })
 
-      ichnos.send({ type: 'linkClick', payload: { event: 'gtm' } })
+      ichnos.send(ichnos.events.addToCart({ productId: 'xyz' }))
 
       const actual = (window as any).dataLayer[1]
 

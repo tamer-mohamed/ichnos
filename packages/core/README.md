@@ -38,7 +38,7 @@ ichnos.send(
 ### `config.options`
 
 | Name          | type          | default | comments  |
-| ------------- |:-------------:| -------:|----------:|
+| ------------- | ------------- | ------- | --------- |
 | id (required) |  `String`     |         |           |
 | events (required) |  `{ type: String }`     |     []    | register event types          |
 | active        |  `Boolean`     |         | whether to enable sending gtm events|
@@ -67,11 +67,6 @@ ichnos.send(
 ### Hooks
 
 Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
-
-| Name          | signature     | comments  |
-| ------------- |:-------------:| -----:|
-| `beforeSend`  | `beforeSend(type:string, payload: Payload, history: gtmEvents[]): Payload | false` | cancel sending the event if false is returned |
-
 #### `beforeSend`
 
 `beforeSend(type:string, payload: any, history: gtmEvents[])`
@@ -80,7 +75,7 @@ hook called before send gtm event to the datalayer
 
 below is example to attach `event` property to all the events schema.
 
-```ts
+```js
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({

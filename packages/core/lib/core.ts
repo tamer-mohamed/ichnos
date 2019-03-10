@@ -21,7 +21,7 @@ export interface EventsCreator {
 }
 
 export interface Hook {
-  beforeSend?<Type, Payload>(type: Type, payload: Payload, history: any[]): Payload | false
+  beforeSend?<Payload>(type: string, payload: Payload, history: any[]): Payload | false
 }
 
 export interface RegisteredEvent {

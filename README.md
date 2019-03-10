@@ -81,7 +81,7 @@ hook called before send gtm event to the datalayer
 
 below is example to attach `event` property to all the events schema.
 
-```ts
+```js
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({
