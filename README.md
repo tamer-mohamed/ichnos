@@ -7,7 +7,7 @@ Library for Tracking client-side events via Google Tag Manager (GTM).
  - Can be pluged to any view framework - see integrations
  - Redux-like: Easy to use and can hook into events 
 
-# Usage
+## Install
 
 ```bash
 npm install @ichnos/core
@@ -18,55 +18,72 @@ if you using [yarn](https://yarnpkg.com) as package manager
 yarn add @ichnos/core
 ```
 
-# Getting started
-
-## Initialize
-Create Ichnos instance to inject gtm script.
+## Getting started
+Create Ichnos instance and register event types.
 
 ```js
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({
-    options: { id: 'GTM-XXX' },
-    events: [
-        { type: 'addToCart' },
-        { type: 'buyItem' }
+    options: { id: 'GTM-XXX' },  
+    events: [  // register events
+        { type: 'addToCart' }
     ]
 })
 ```
+next, you can fire events with payload as follow:
 
-Ichnos instance API is: `{ send, events }`
-
-#### `events`
-return list of event creators as function indexed by event name to accept payload
-##### Predfined events 
-- `pageView`
-    use it to fire page view for single page application
-    `ichnos.events.pageView('page-path')`
-
-#### `send`
-apply hooks (if any) and send the event payload to gtm
-
-```js
+```js 
 ichnos.send(
-    ichnos.events.pageView('page-path')
+    ichnos.events.addToCart({ productId: 'abc' })
 )
 ```
 
-```js
-tracking.send(ichnos.events.addToCart({productId: '123' }))
-tracking.send(ichnos.events.pageView('page-path'))
+## Configurations
+
+### `config.options`
+
+| Name          | type          | default | comments  |
+| ------------- |:-------------:| -------:|----------:|
+| id (required) |  `String`     |         |           |
+| events (required) |  `{ type: String }`     |     []    | register event types          |
+| active        |  `Boolean`     |         | whether to enable sending gtm events|
+| layer         |  `String`     | `dataLayer` |whether to enable sending gtm events|
+| debug         |  `Boolean`     | `false` | show logs in the console |
+
+### `config.events`
+array of events types to register to ichnos instance, Example:
+
+```js 
+const ichnos = new Ichnos({
+    // ...
+    events: [{ type: 'addToCart' }]
+    // ...
+})
 ```
 
-## Config
+then, you can use it to generate event with payload before send
 
-### Options
-
+```js
+ichnos.send(
+    ichnos.events.addToCart({ productId: 'abc'})
+)
+```
 
 ### Hooks
+
 Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
 
-you can use `beforeSend` hook to patch all the events before it is sent to gtm.
+| Name          | signature     | comments  |
+| ------------- |:-------------:| -----:|
+| `beforeSend`  | `beforeSend(type:string, payload: Payload, history: gtmEvents[]): Payload | false` | cancel sending the event if false is returned |
+
+#### `beforeSend`
+
+`beforeSend(type:string, payload: any, history: gtmEvents[])`
+
+hook called before send gtm event to the datalayer
+
 below is example to attach `event` property to all the events schema.
 
 ```ts
@@ -75,8 +92,8 @@ import Ichnos from '@ichnos/core'
 const ichnos = new Ichnos({
     options: { id: 'GTM-XXX' },
     events: [ { type: 'addToCart' }]
-    hooks: {
-        beforeSend: (type, payload) => {
+    hook: {
+        beforeSend: (type, payload, history) => {
             let event = payload;
 
             if(type === 'addToCart'){
@@ -96,11 +113,9 @@ const ichnos = new Ichnos({
 ichnos.send(ichnos.events.addToCart({ productId: '123' })); // { userId: 'xyz', productId: '123' }
 ```
 
-
 # Integrations
 
 - [x] [@ichnos/vue](https://github.com/tamer-mohamed/ichnos/tree/master/packages/vue) - Vue integration
 - [ ] @ichnos/react
 - [ ] @ichnos/preact
 - [ ] @ichnos/angular
-

@@ -2,7 +2,7 @@
 
 > Vue plugin for ichnos
 
-## Usage
+## Install
 
 ```bash
 npm install @ichnos/vue
@@ -15,6 +15,7 @@ import {plugin} from '@ichnos/vue'
 import Vue from 'vue'
 
 Vue.use(plugin, {
+  events: [{ type: 'addToCart' }],
   options:{
     id: 'GTM-XXXX',
     active: true,
@@ -25,68 +26,14 @@ Vue.use(plugin, {
   }),
 })
 ```
+then, ichnos instance will be available via $ichnos in vue instance.
+next, you can either fire events imperatively using `send` method or use ichnos as vue-directive
 
-#### Plugin options
-```ts
-interface IOptions {
-  id: string
-  active?: boolean // default: true
-  layer?: string // default: dataLayer
-  debug?: boolean // default: false
-}
-```
+#### Using directive
 
-
-### Setup Vue mixin 
-you may need to tracking html elements using `data-track*` attributes.
-find example below to track html elements and format gtm event before sending the event using `beforeSend` hook
-
-```ts
-import Vue from 'vue'
-import {mixinFactory} from '@ichnos/vue'
-
-
-new Vue({
-    mixins: [
-      mixinFactory({
-        events: [
-          {
-            elements: ['a', 'button'],
-            eventListeners: ['click'],
-            mapTagNameToGTMEventName: {
-              button: 'button',
-              a: 'link',
-            },
-          },
-          {
-            elements: ['input', 'textarea', 'checkbox', 'radio'],
-            eventListeners: ['focusin', 'focusout'],
-            mapTagNameToGTMEventName: 'input',
-          },
-        ],
-        beforeSend: (event) => ({
-          event: 'gtmEvent',
-          gtmEventCategory: event.category, // -> interpolated from data-trackcategory
-          gtmEventLabel: event.label,
-          gtmEventValue: event.value,
-          gtmEventAction: event.action,
-        }),
-      }),
-    ],
-});
-```
-
-#### `mixinFactory` params
-
-```ts
-interface IMixinFactory {
-  event: {
-    elements: string[]
-    eventListeners: string[]
-    mapTagNameToGTMEventName: string | { [tagName: string]: string } 
-  },
-  beforeSend(event: any): any // if provided it will override `beforeSend` hook in the plugin options
-}
+Below exanple to fire focusin event 
+```vue
+  <input v-ichnos:focusin="$ichnos.events.addToCart({category: 'xyz'})" /> 
 ```
 
 ### Fire events Imperatively 
@@ -94,7 +41,6 @@ interface IMixinFactory {
 in any vue component you will access to `$ichnos` instance to fire any event using `send` method.
 
 ```js
-this.$ichnos.send({
-  event: 'event_name'
-})
+const {send, events} = this.$ichnos;
+send(events.addToCart({category: 'xyz'}))
 ```

@@ -21,7 +21,7 @@ export interface EventsCreator {
 }
 
 export interface Hook {
-  beforeSend?(type: string, payload: any, history: any[]): IchnosEvent | void
+  beforeSend?<Type, Payload>(type: Type, payload: Payload, history: any[]): Payload | false
 }
 
 export interface RegisteredEvent {
@@ -133,7 +133,7 @@ export default class Tracking {
       if (typeof this._hook.beforeSend === 'function' && type !== 'gtmInit') {
         const ret = this._hook.beforeSend(type, payload, history)
 
-        if (!ret) {
+        if (ret === false) {
           this.debug("event: not sent because beforeSend hook didn't return the event", payload)
           return
         } else {
