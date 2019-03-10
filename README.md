@@ -8,6 +8,7 @@ Library for Tracking client-side events via Google Tag Manager (GTM).
  - Flexible-scalable solution for gtm tracking
  - Can be pluged to any view framework - see [integrations](#integrations)
  - Redux-like: Easy to use and can hook into events 
+ - Super small: less than 2kb (minified)
 
 ## Install
 
@@ -72,7 +73,7 @@ ichnos.send(
 )
 ```
 
-### Hooks
+### `config.hook`
 
 Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
 #### `beforeSend`
@@ -87,8 +88,7 @@ below is example to attach `event` property to all the events schema.
 import Ichnos from '@ichnos/core'
 
 const ichnos = new Ichnos({
-    options: { id: 'GTM-XXX' },
-    events: [ { type: 'addToCart' }]
+    // ...
     hook: {
         beforeSend: (type, payload, history) => {
             let event = payload;
