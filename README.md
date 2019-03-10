@@ -47,7 +47,7 @@ ichnos.send(
 | ------------- | ------------- | ------- | --------- |
 | id (required) |  `String`     |         |           |
 | events (required) |  `{ type: String }`     |     []    | register event types          |
-| active        |  `Boolean`     |         | whether to enable sending gtm events|
+| active        |  `Boolean`     | `false`  | whether to enable sending gtm events|
 | layer         |  `String`     | `dataLayer` |whether to enable sending gtm events|
 | debug         |  `Boolean`     | `false` | show logs in the console |
 
