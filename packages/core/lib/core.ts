@@ -43,17 +43,17 @@ const inBrowser: boolean = typeof window !== 'undefined'
 export default class Tracking {
   public options: IOptions
   private _isInitialized: boolean
-  private _events: EventsCreator
   private _hook: Hook
+  private _events: EventsCreator = {
+    gtmInit: this.createEvent('gtmInit'),
+    pageView: this.createEvent('pageView')
+  }
 
   constructor({ options, events, hook }: Config) {
     this._isInitialized = false
     this._hook = hook || {}
     this.options = options
 
-    this._events = {
-      gtmInit: this.createEvent('gtmInit')
-    }
     events.forEach(e => {
       this._events[e.type] = this.createEvent(e.type)
     })
