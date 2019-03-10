@@ -21,7 +21,7 @@
   "scripts": {
     "postinstall": "npm run bootstrap",
     "build": "lerna run --parallel --stream build",
-    "test": "jest --coverage",
+    "test": "jest",
     "bootstrap": "lerna bootstrap",
     "prebuild": "rimraf dist",
     "publish": "lerna publish"

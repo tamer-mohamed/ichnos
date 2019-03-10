@@ -160,6 +160,25 @@ describe('@ichnos/core', () => {
       expect(actual).toBeUndefined()
     })
   })
+
+  describe('debug', () => {
+    test('debug only when options.debug=true', () => {
+      jest.spyOn(global.console, 'log')
+
+      const ichnos = new Ichnos({
+        options: {
+          active: true,
+          id: 'GTM-XXX',
+          debug: true
+        },
+        events: [{ type: 'addToCart' }]
+      })
+
+      ichnos.send(ichnos.events.addToCart({ category: 'x' }))
+
+      expect(global.console.log).not.toBeCalled()
+    })
+  })
 })
 
 function getScriptSrc() {

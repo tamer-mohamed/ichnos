@@ -130,15 +130,14 @@ export default class Tracking {
     if (this.options.active) {
       const history = this.getHistory()
 
-      this.debug('Event', payload)
-
       if (typeof this._hook.beforeSend === 'function' && type !== 'gtmInit') {
         const ret = this._hook.beforeSend(type, payload, history)
 
         if (!ret) {
-          this.debug("Event not sent because beforeSend hook didn't return the event", payload)
+          this.debug("event: not sent because beforeSend hook didn't return the event", payload)
           return
         } else {
+          this.debug('event:sent', payload)
           this._pushToGTM(ret)
         }
       } else {
@@ -147,9 +146,12 @@ export default class Tracking {
     }
   }
 
-  debug(message: string, payload: any, type: 'warn' | 'error' | 'log' = 'log') {
-    /* istanbul ignore else */
-    if (this.options.debug) {
+  debug /* istanbul ignore next */(
+    message: string,
+    payload: any,
+    type: 'warn' | 'error' | 'log' = 'log'
+  ) {
+    if (this.options.debug === true) {
       console[type](`Ichnos:${message}`, payload)
     }
   }
