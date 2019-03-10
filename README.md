@@ -6,8 +6,8 @@ Library for Tracking client-side events via Google Tag Manager (GTM).
 ## What is `Ichnos`?
  - Built with [Typescript](https://www.typescriptlang.org/) :rocket:
  - Flexible-scalable solution for gtm tracking
- - Can be pluged to any view framework - see [integrations](#integrations)
- - Redux-like: Easy to use and can hook into events 
+ - Can be plugged to any view framework - see [integrations](#integrations)
+ - Redux-like: Easy to use and can hook into events
  - Super small: less than 2kb (minified)
 
 ## Install
@@ -46,13 +46,13 @@ ichnos.send(
 
 ### `config.options`
 
-| Name          | type          | default | comments  |
-| ------------- | ------------- | ------- | --------- |
-| id (required) |  `string`     |         |           |
-| events (required) |  `{ type: String }`     |     []    | register event types          |
-| active        |  `boolean`     | `false`  | whether to enable sending gtm events|
-| layer         |  `string`     | `dataLayer` |whether to enable sending gtm events|
-| debug         |  `boolean`     | `false` | show logs in the console |
+| Name              | type                | default      | comments                      |
+| -------------     | -------------       | ------------ | ----------------------------- |
+| id (required)     |  `string`           |              |                               |
+| events (required) |  `{ type: String }` |     []       | register event types          |
+| active            |  `boolean`          | `false`      | whether to enable sending gtm events|
+| layer             |  `string`           | `dataLayer`  | whether to enable sending gtm events|
+| debug             |  `boolean`          | `false`      | show logs in the console |
 
 ### `config.events`
 array of events types to register to ichnos instance, Example:
