@@ -2,9 +2,9 @@
 Library for Tracking client-side events via Google Tag Manager (GTM).
 
 ## What is `Ichnos`?
- - Built with (Typescript)[https://www.typescriptlang.org/] :rocket:
+ - Built with [Typescript](https://www.typescriptlang.org/) :rocket:
  - Flexible-scalable solution for gtm tracking
- - Can be pluged to any view framework - see integrations
+ - Can be pluged to any view framework - see [integrations](#integrations)
  - Redux-like: Easy to use and can hook into events 
 
 ## Install
