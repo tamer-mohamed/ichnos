@@ -36,13 +36,13 @@ ichnos.send(
 
 ### `config.options`
 
-| Name          | type          | default | comments  |
-| ------------- | ------------- | ------- | --------- |
-| id (required) |  `string`     |         |           |
-| events (required) |  `{ type: String }`     |     []    | register event types          |
-| active        |  `boolean`     | `false`  | whether to enable sending gtm events|
-| layer         |  `string`     | `dataLayer` |whether to enable sending gtm events|
-| debug         |  `boolean`     | `false` | show logs in the console |
+| Name              | type                | default      | comments                      |
+| -------------     | -------------       | ------------ | ----------------------------- |
+| id (required)     |  `string`           |              |                               |
+| events (required) |  `{ type: String }` |     []       | register event types          |
+| active            |  `boolean`          | `false`      | whether to enable sending gtm events|
+| layer             |  `string`           | `dataLayer`  | whether to enable sending gtm events|
+| debug             |  `boolean`          | `false`      | show logs in the console |
 
 ### `config.events`
 array of events types to register to ichnos instance, Example:
