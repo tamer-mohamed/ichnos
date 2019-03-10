@@ -5,21 +5,21 @@ module.exports = {
       extends: './babel.config.js'
     }
   },
-  notify: true,
-  notifyMode: 'always',
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest'
   },
   roots: ['<rootDir>packages'],
   testMatch: ['**/__tests__/*.+(ts|tsx|js)', '**/*.test.+(ts|tsx|js)'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
-  coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
+  collectCoverage: true,
+  coverageReporters: ['text', 'lcov'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
   coverageThreshold: {
     global: {
-      branches: 90,
-      functions: 95,
-      lines: 95,
-      statements: 95
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100
     }
   }
 }

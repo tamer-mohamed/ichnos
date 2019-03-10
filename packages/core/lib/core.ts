@@ -1,4 +1,4 @@
-export interface IOptions {
+export interface Options {
   id: string
   active?: boolean
   layer?: string
@@ -21,7 +21,7 @@ export interface EventsCreator {
 }
 
 export interface Hook {
-  beforeSend?(type: string, payload: any, history: any[]): IchnosEvent
+  beforeSend?<Payload>(type: string, payload: Payload, history: any[]): Payload | false
 }
 
 export interface RegisteredEvent {
@@ -32,7 +32,7 @@ interface IWindow {
 }
 
 export interface Config {
-  options: IOptions
+  options: Options
   events: RegisteredEvent[]
   hook?: Hook
   params?: any
@@ -41,19 +41,19 @@ export interface Config {
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
-  public options: IOptions
+  public options: Options
   private _isInitialized: boolean
-  private _events: EventsCreator
   private _hook: Hook
+  private _events: EventsCreator = {
+    gtmInit: this.createEvent('gtmInit'),
+    pageView: this.createEvent('pageView')
+  }
 
   constructor({ options, events, hook }: Config) {
     this._isInitialized = false
     this._hook = hook || {}
     this.options = options
 
-    this._events = {
-      gtmInit: this.createEvent('gtmInit')
-    }
     events.forEach(e => {
       this._events[e.type] = this.createEvent(e.type)
     })
@@ -128,17 +128,16 @@ export default class Tracking {
 
   send = ({ type, payload }: IchnosEvent) => {
     if (this.options.active) {
-      const history = (window as IWindow)[this.layer]
-
-      this.debug('Event', payload)
+      const history = this.getHistory()
 
       if (typeof this._hook.beforeSend === 'function' && type !== 'gtmInit') {
         const ret = this._hook.beforeSend(type, payload, history)
 
-        if (!ret) {
-          this.debug("Event not sent because beforeSend hook didn't return the event", payload)
+        if (ret === false) {
+          this.debug("event: not sent because beforeSend hook didn't return the event", payload)
           return
         } else {
+          this.debug('event:sent', payload)
           this._pushToGTM(ret)
         }
       } else {
@@ -147,8 +146,12 @@ export default class Tracking {
     }
   }
 
-  debug(message: string, payload: any, type: 'warn' | 'error' | 'log' = 'log') {
-    if (this.options.debug) {
+  debug /* istanbul ignore next */(
+    message: string,
+    payload: any,
+    type: 'warn' | 'error' | 'log' = 'log'
+  ) {
+    if (this.options.debug === true) {
       console[type](`Ichnos:${message}`, payload)
     }
   }

@@ -1,4 +1,4 @@
-import Ichnos, { IOptions } from '@ichnos/core'
+import Ichnos from '@ichnos/core'
 import Vue from 'vue'
 
 declare module 'vue/types/vue' {

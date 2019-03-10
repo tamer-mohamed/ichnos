@@ -2,6 +2,11 @@
 
 import Ichnos from '../lib/core'
 
+interface Payload {
+  name: 'x'
+  newProperty: 'extra value'
+}
+
 describe('@ichnos/core', () => {
   afterEach(() => {
     ;(window as any).dataLayer = undefined
@@ -9,7 +14,7 @@ describe('@ichnos/core', () => {
 
   describe('on initialize', () => {
     test('inject script tag with the provided GTM id', () => {
-      const ichnos = new Ichnos({
+      new Ichnos({
         options: {
           id: 'GTM-XXX'
         },
@@ -23,7 +28,7 @@ describe('@ichnos/core', () => {
     })
 
     test('pass options query to the query string', () => {
-      const ichnos = new Ichnos({
+      new Ichnos({
         options: {
           id: 'GTM-XXX',
           query: {
@@ -36,6 +41,24 @@ describe('@ichnos/core', () => {
       let actual = getScriptSrc()
 
       const expected = '//www.googletagmanager.com/gtm.js?env=staging&id=GTM-XXX&l=dataLayer'
+
+      expect(actual).toBe(expected)
+    })
+
+    test('set isInitialized to true', () => {
+      const ichnos = new Ichnos({
+        options: {
+          id: 'GTM-XXX',
+          query: {
+            env: 'staging'
+          }
+        },
+        events: [{ type: 'buttonClick' }]
+      })
+
+      let actual = ichnos.isInitialized
+
+      const expected = true
 
       expect(actual).toBe(expected)
     })
@@ -104,11 +127,10 @@ describe('@ichnos/core', () => {
         },
         events: [{ type: 'addToCart' }],
         hook: {
-          beforeSend(type, event) {
-            return {
-              ...event,
+          beforeSend<Payload>(type: string, event: Payload): Payload {
+            return Object.assign({}, event, {
               newProperty: 'extra value'
-            }
+            })
           }
         }
       })
@@ -119,6 +141,50 @@ describe('@ichnos/core', () => {
       const expected = { event: 'gtm', newProperty: 'extra value' }
 
       expect(actual).toEqual(expected)
+    })
+
+    test('doesnot send the event if beforeSend doesnot return event', () => {
+      const ichnos = new Ichnos({
+        options: {
+          active: true,
+          id: 'GTM-XXX'
+        },
+        events: [{ type: 'addToCart' }],
+        hook: {
+          beforeSend<Payload>(type: string, payload: Payload): Payload | false {
+            if (type === 'addToCart') {
+              return false
+            }
+
+            return payload
+          }
+        }
+      })
+
+      ichnos.send(ichnos.events.addToCart({ productId: 'xyz' }))
+
+      const actual = (window as any).dataLayer[1]
+
+      expect(actual).toBeUndefined()
+    })
+  })
+
+  describe('debug', () => {
+    test('debug only when options.debug=true', () => {
+      jest.spyOn(global.console, 'log')
+
+      const ichnos = new Ichnos({
+        options: {
+          active: true,
+          id: 'GTM-XXX',
+          debug: true
+        },
+        events: [{ type: 'addToCart' }]
+      })
+
+      ichnos.send(ichnos.events.addToCart({ category: 'x' }))
+
+      expect(global.console.log).not.toBeCalled()
     })
   })
 })
