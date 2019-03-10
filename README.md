@@ -1,6 +1,8 @@
 # Ichnos
 Library for Tracking client-side events via Google Tag Manager (GTM).
 
+![Codecov](https://img.shields.io/codecov/c/github/tamer-mohamed/ichnos.svg?token=cbf92d09-6bb6-48b2-a331-f65f84c86bac)
+
 ## What is `Ichnos`?
  - Built with [Typescript](https://www.typescriptlang.org/) :rocket:
  - Flexible-scalable solution for gtm tracking
