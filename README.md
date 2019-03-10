@@ -75,7 +75,8 @@ ichnos.send(
 
 ### `config.hook`
 
-Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. 
+Events defined with a lifecycle in ichnos to reduce any boilerplate and redundunt code and make it simple to roll out your tracking events. below list of hooks can be applied:
+
 #### `beforeSend`
 
 `beforeSend(type:string, payload: any, history: gtmEvents[])`
