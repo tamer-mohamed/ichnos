@@ -92,23 +92,22 @@ const ichnos = new Ichnos({
     // ...
     hook: {
         beforeSend: (type, payload, history) => {
-            let event = payload;
-
             if(type === 'addToCart'){
                 return {
                     userId: 'xyz'
-                    ...event
+                    ...payload
                 }
             }
-
-            return event;
+            return payload;
         }
     }
 })
-//...
-//...
+```
 
-ichnos.send(ichnos.events.addToCart({ productId: '123' })); // { userId: 'xyz', productId: '123' }
+then, sending events with type `addToCart` will add `userId: 'xyz'` to it
+
+```js
+ichnos.send({ productId: 'abc' }); // { userId: 'xyz`, productId: 'abc' }
 ```
 
 # Integrations
