@@ -1,4 +1,4 @@
-![Codecov](https://img.shields.io/codecov/c/github/tamer-mohamed/ichnos.svg?style=flat-square)
+![Codecov](https://img.shields.io/codecov/c/github/tamer-mohamed/ichnos.svg?style=flat-square) ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/tamer-mohamed/ichnos.svg?style=flat-square) ![CircleCI branch](https://img.shields.io/circleci/project/github/tamer-mohamed/ichnos/master.svg?style=flat-square) ![GitHub](https://img.shields.io/github/license/tamer-mohamed/ichnos.svg?style=flat-square) ![David](https://img.shields.io/david/tamer-mohamed/ichnos.svg?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/@ichnos/core.svg?style=flat-square) 
 
 # Ichnos
 Library for Tracking client-side events via Google Tag Manager (GTM).
