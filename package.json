@@ -12,7 +12,7 @@
   "author": "Tamer Mohamed <tamer.a.elsayed@gmail.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+ssh://git@github.com:tamer-mohamed/ichnos.git"
   },
   "license": "MIT",
   "engines": {

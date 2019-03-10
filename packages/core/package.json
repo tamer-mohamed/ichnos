@@ -26,23 +26,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/tamer.mohamed/superior-tracking.git"
+    "url": "git+ssh://git@github.com:tamer-mohamed/ichnos.git"
   },
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file lib",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "prepare": "npm run build",
-    "travis-deploy-once": "travis-deploy-once"
+    "prepare": "npm run build"
   },
   "bugs": {
     "url": "https://gitlab.com/tamer.mohamed/superior-tracking/issues"

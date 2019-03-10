@@ -1,4 +1,4 @@
-export interface IOptions {
+export interface Options {
   id: string
   active?: boolean
   layer?: string
@@ -32,7 +32,7 @@ interface IWindow {
 }
 
 export interface Config {
-  options: IOptions
+  options: Options
   events: RegisteredEvent[]
   hook?: Hook
   params?: any
@@ -41,7 +41,7 @@ export interface Config {
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
-  public options: IOptions
+  public options: Options
   private _isInitialized: boolean
   private _hook: Hook
   private _events: EventsCreator = {
