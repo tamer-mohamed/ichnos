@@ -40,11 +40,11 @@ Ichnos instance API is: `{ send, events }`
 #### `events`
 return list of event creators as function indexed by event name to accept payload
 ##### Predfined events 
-    - `pageView`
+- `pageView`
     use it to fire page view for single page application
     `ichnos.events.pageView('page-path')`
 
-####`send`
+#### `send`
 apply hooks (if any) and send the event payload to gtm
 
 ```js
@@ -55,7 +55,6 @@ ichnos.send(
 
 ```js
 tracking.send(ichnos.events.addToCart({productId: '123' }))
-
 tracking.send(ichnos.events.pageView('page-path'))
 ```
 
