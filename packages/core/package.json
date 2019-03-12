@@ -1,6 +1,6 @@
 {
   "name": "@ichnos/core",
-  "version": "0.0.14",
+  "version": "1.0.0-alpha.0",
   "description": "Core library for ichnos tracking",
   "keywords": [
     "track",
