@@ -1,6 +1,6 @@
 {
   "name": "@ichnos/vue",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "Vue plugin for ichnos",
   "keywords": [
     "vue",
@@ -46,7 +46,7 @@
     "url": "https://github.com/tamer-mohamed/ichnos/issues"
   },
   "dependencies": {
-    "@ichnos/core": "^1.0.0-alpha.0"
+    "@ichnos/core": "^1.0.0"
   },
   "gitHead": "a151610e042e520205b181682d13af12207679f0",
   "devDependencies": {
