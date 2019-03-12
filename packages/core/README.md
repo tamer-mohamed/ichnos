@@ -96,7 +96,5 @@ const ichnos = new Ichnos({
     }
 })
 //...
-//...
-
 ichnos.send(ichnos.events.addToCart({ productId: '123' })); // { userId: 'xyz', productId: '123' }
 ```
