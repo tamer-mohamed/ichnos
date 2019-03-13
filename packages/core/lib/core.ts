@@ -115,6 +115,7 @@ export default class Tracking {
   }
 
   send = ({ type, payload }: IchnosEvent) => {
+    /* istanbul ignore next */
     if (!type || !payload) {
       throw new Error('type and payload are required')
     }
