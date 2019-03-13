@@ -41,21 +41,21 @@ export interface Config {
 const inBrowser: boolean = typeof window !== 'undefined'
 
 export default class Tracking {
-  public options: Options
-  private _isInitialized: boolean
-  private _hook: Hook
-  private _events: EventsCreator = {
+  options: Options
+  isInitialized: Boolean
+  hook: Hook
+  events: EventsCreator = {
     gtmInit: this.createEvent('gtmInit'),
     pageView: this.createEvent('pageView')
   }
 
   constructor({ options, events, hook }: Config) {
-    this._isInitialized = false
-    this._hook = hook || {}
+    this.isInitialized = false
+    this.hook = hook || {}
     this.options = options
 
     events.forEach(e => {
-      this._events[e.type] = this.createEvent(e.type)
+      this.events[e.type] = this.createEvent(e.type)
     })
 
     if (!inBrowser) {
@@ -77,7 +77,7 @@ export default class Tracking {
     ;(window as IWindow)[this.layer] = (window as IWindow)[this.layer] || []
 
     this.send(
-      this._events.gtmInit({
+      this.events.gtmInit({
         'gtm.start': new Date().getTime(),
         event: 'gtm.js'
       })
@@ -106,18 +106,6 @@ export default class Tracking {
     return this.options.layer || 'dataLayer'
   }
 
-  get isInitialized() {
-    return this._isInitialized
-  }
-
-  get events() {
-    return this._events
-  }
-
-  set isInitialized(init: boolean) {
-    this._isInitialized = init
-  }
-
   private _pushToGTM(event: any) {
     ;(window as IWindow)[this.layer].push(event)
   }
@@ -127,17 +115,21 @@ export default class Tracking {
   }
 
   send = ({ type, payload }: IchnosEvent) => {
+    /* istanbul ignore next */
+    if (!type || !payload) {
+      throw new Error('type and payload are required')
+    }
     if (this.options.active) {
       const history = this.getHistory()
 
-      if (typeof this._hook.beforeSend === 'function' && type !== 'gtmInit') {
-        const ret = this._hook.beforeSend(type, payload, history)
+      if (typeof this.hook.beforeSend === 'function' && type !== 'gtmInit') {
+        const ret = this.hook.beforeSend(type, payload, history)
 
         if (ret === false) {
           this.debug("event: not sent because beforeSend hook didn't return the event", payload)
           return
         } else {
-          this.debug('event:sent', payload)
+          this.debug('event:sent', ret)
           this._pushToGTM(ret)
         }
       } else {
