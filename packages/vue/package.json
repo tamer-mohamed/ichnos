@@ -46,7 +46,11 @@
     "url": "https://github.com/tamer-mohamed/ichnos/issues"
   },
   "dependencies": {
-    "@ichnos/core": "^1.0.1"
+    "@ichnos/core": "^1.0.1",
+    "@types/rollup-plugin-commonjs": "^9.3.1",
+    "@types/rollup-plugin-node-resolve": "^4.1.0",
+    "rollup": "^1.15.6",
+    "typedoc": "^0.14.2"
   },
   "gitHead": "a151610e042e520205b181682d13af12207679f0",
   "devDependencies": {
