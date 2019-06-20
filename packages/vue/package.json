@@ -1,6 +1,6 @@
 {
   "name": "@ichnos/vue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue plugin for ichnos",
   "keywords": [
     "vue",
@@ -46,7 +46,7 @@
     "url": "https://github.com/tamer-mohamed/ichnos/issues"
   },
   "dependencies": {
-    "@ichnos/core": "^1.0.1",
+    "@ichnos/core": "^1.0.2",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "rollup": "^1.15.6",
