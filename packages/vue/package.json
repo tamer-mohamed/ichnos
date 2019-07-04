@@ -40,7 +40,9 @@
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "bugs": {
     "url": "https://github.com/tamer-mohamed/ichnos/issues"
@@ -50,12 +52,14 @@
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "rollup": "^1.15.6",
-    "typedoc": "^0.14.2"
+    "typedoc": "^0.14.2",
+    "snyk": "^1.189.0"
   },
   "gitHead": "a151610e042e520205b181682d13af12207679f0",
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.29",
     "vue": "^2.6.8",
     "vue-template-compiler": "^2.6.8"
-  }
+  },
+  "snyk": true
 }
