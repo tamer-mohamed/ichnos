@@ -51,7 +51,7 @@
     "@ichnos/core": "^1.0.2",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
-    "rollup": "^1.15.6",
+    "rollup": "^1.20.0",
     "typedoc": "^0.14.2",
     "snyk": "^1.189.0"
   },
