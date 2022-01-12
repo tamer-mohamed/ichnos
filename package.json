@@ -89,6 +89,6 @@
     "@types/rollup-plugin-sourcemaps": "^0.4.2"
   },
   "dependencies": {
-    "ramda": "^0.26.1"
+    "ramda": "^0.27.2"
   }
 }
