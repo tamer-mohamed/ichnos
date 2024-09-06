@@ -47,9 +47,9 @@
   "dependencies": {
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
-    "rollup": "^1.15.6",
+    "rollup": "^2.0.0",
     "schm": "^0.4.1",
-    "typedoc": "^0.14.2",
+    "typedoc": "^0.22.13",
     "snyk": "^1.189.0"
   },
   "gitHead": "7cbf861d34dbb06d27ca26fe8c34e4e7e5ad8ce2",
