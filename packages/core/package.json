@@ -29,8 +29,8 @@
     "url": "git+ssh://git@github.com:tamer-mohamed/ichnos.git"
   },
   "scripts": {
-    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file lib",
+    "lint": "eslint --ext .ts --parser-options=project:tsconfig.json lib __tests__",
+    "build": "rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file lib",
     "start": "rollup -c rollup.config.ts -w",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
@@ -49,7 +49,7 @@
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "rollup": "^1.15.6",
     "schm": "^0.4.1",
-    "typedoc": "^0.14.2",
+    "typedoc": "^0.23.0",
     "snyk": "^1.189.0"
   },
   "gitHead": "7cbf861d34dbb06d27ca26fe8c34e4e7e5ad8ce2",
