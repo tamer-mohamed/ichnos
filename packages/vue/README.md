@@ -2,11 +2,15 @@
 
 > Vue plugin for ichnos
 
+For general information about Ichnos and core configuration, please see the main [README.md](../../README.md).
+
 ## Install
 
 ```bash
 npm install @ichnos/vue
 ```
+
+## Usage
 
 ### Setup Vue plugin
 
@@ -20,29 +24,39 @@ Vue.use(plugin, {
     id: 'GTM-XXXX',
     active: true
   },
-  beforeSend: event => ({
-    event: 'my_app_events',
-    ...event
-  })
+  hook: {
+    beforeSend: event => ({ // Assuming 'beforeSend' should be under a 'hook' object like in the core example
+      event: 'my_app_events',
+      ...event
+    })
+  }
 })
 ```
 
-then, ichnos instance will be available via \$ichnos in vue instance.
-next, you can either fire events imperatively using `send` method or use ichnos as vue-directive
+Then, the Ichnos instance will be available via `this.$ichnos` in your Vue components. You can fire events imperatively using the `send` method or use Ichnos as a Vue directive.
 
-#### Using directive
+### Using directive
 
-Below example to fire `focusin` event
+Below is an example of how to fire an `addToCart` event on click:
 
 ```vue
-<button v-ichnos:click.addToCart="{ category: 'xyz' }" />
+<button v-ichnos:click.addToCart="{ category: 'xyz' }">Add to Cart</button>
 ```
+
+This will send an event with the type `addToCart` and the specified payload when the button is clicked.
 
 ### Fire events Imperatively
 
-in any vue component you will access to `$ichnos` instance to fire any event using `send` method.
+Within any Vue component, you can access the `$ichnos` instance to fire any event using the `send` method:
 
-```js
-const { send, events } = this.$ichnos
-send(events.addToCart({ category: 'xyz' }))
+```javascript
+// Example within a Vue component method
+export default {
+  methods: {
+    addProductToCart() {
+      const { send, events } = this.$ichnos;
+      send(events.addToCart({ category: 'xyz', productId: '123' }));
+    }
+  }
+}
 ```

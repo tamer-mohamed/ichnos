@@ -109,9 +109,24 @@ const ichnos = new Ichnos({
 ichnos.send(ichnos.events.addToCart({ productId: '123' })); // { userId: 'xyz', productId: '123' }
 ```
 
-# Integrations
+# Packages
 
-- [x] [@ichnos/vue](https://github.com/tamer-mohamed/ichnos/tree/master/packages/vue) - Vue integration
-- [ ] @ichnos/react
-- [ ] @ichnos/preact
-- [ ] @ichnos/angular
+- **`@ichnos/core`**: [README](packages/core/README.md) - The core library for Ichnos.
+- **`@ichnos/vue`**: [README](packages/vue/README.md) - Vue integration for Ichnos.
+
+More packages are planned:
+- @ichnos/react
+- @ichnos/preact
+- @ichnos/angular
+
+# Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+# License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+# Code of Conduct
+
+Please read [code-of-conduct.md](code-of-conduct.md) for details on our code of conduct.
