@@ -50,7 +50,7 @@
     "rollup": "^1.15.6",
     "schm": "^0.4.1",
     "typedoc": "^0.14.2",
-    "snyk": "^1.189.0"
+    "snyk": "^1.996.0"
   },
   "gitHead": "7cbf861d34dbb06d27ca26fe8c34e4e7e5ad8ce2",
   "snyk": true
